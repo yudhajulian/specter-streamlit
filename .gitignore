@@ -1,0 +1,47 @@
+# Virtual environment
+.venv/
+venv/
+env/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Streamlit runtime files
+.streamlit/secrets.toml
+streamlit-win.log
+*.log
+
+# Jupyter Notebooks checkpoints
+.ipynb_checkpoints/
+
+# Build / dist
+dist/
+build/
+*.egg-info/
+
+# Editor & IDE
+.vscode/settings.json
+.idea/
+*.suo
+*.sw?
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary / working files
+revisi/
+
+# Model weights & large binary files
+*.h5
+*.keras
+*.pt
+*.pth
+*.pkl
+*.onnx
+*.pb

@@ -11,6 +11,7 @@ def load_css():
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         """,
         unsafe_allow_html=True,
     )
@@ -22,17 +23,17 @@ def render_sidebar():
         st.session_state.page = "Overview"
 
     nav_items = [
-        ("Overview",        "📊", "Overview"),
-        ("EDA",             "🔍", "Exploratory Analysis"),
-        ("Preprocessing",   "⚙️", "Preprocessing"),
-        ("Modeling",        "🧠", "Modeling"),
-        ("Evaluation",      "📈", "Evaluation"),
+        ("Overview",        "grid-3x3-gap-fill",   "Overview",             "#240CF6"),
+        ("EDA",             "bar-chart-line-fill",  "Exploratory Analysis", "#06b6d4"),
+        ("Preprocessing",   "gear-fill",            "Preprocessing",        "#F59E0B"),
+        ("Modeling",        "cpu-fill",             "Modeling",             "#8b5cf6"),
+        ("Evaluation",      "graph-up-arrow",       "Evaluation",           "#10b981"),
     ]
 
     with st.sidebar:
         # ── Logo ──────────────────────────────────────────
         st.markdown("""
-        <div style="padding:1.25rem 0.75rem 0.75rem;">
+        <div style="padding:0.4rem 0.75rem 0.5rem;">
             <svg width="120" height="34" viewBox="0 0 131 37" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M30.4748 11.2L8.95919 22.6363L4.2809 19.8354L4.5769 14.3917L26.0925 2.95535L30.1771 6.07068L30.4748 11.2Z"
                     stroke="url(#spec_g0)" stroke-width="2.78467"/>
@@ -63,22 +64,22 @@ def render_sidebar():
         """, unsafe_allow_html=True)
 
         # ── Navigation ────────────────────────────────────
-        for key, icon, label in nav_items:
+        for key, icon, label, color in nav_items:
             if st.session_state.page == key:
-                # Active: only a styled div, no button
+                # Active: styled div dengan icon berwarna + background light
                 st.markdown(f"""
                 <div style="
                     display:flex;align-items:center;gap:8px;
                     padding:0.5rem 0.75rem;border-radius:6px;
-                    background:#EEF2FF;margin-bottom:2px;
+                    background:{color}15;margin-bottom:2px;
                 ">
-                    <span style="font-size:0.9rem;">{icon}</span>
-                    <span style="font-size:0.875rem;font-weight:600;color:#240CF6;">{label}</span>
+                    <i class="bi bi-{icon}" style="color:{color};font-size:0.95rem;line-height:1;"></i>
+                    <span style="font-size:0.875rem;font-weight:600;color:#040404;">{label}</span>
                 </div>
                 """, unsafe_allow_html=True)
             else:
-                # Inactive: only a button, no extra div
-                if st.button(f"{icon}  {label}", key=f"nav_{key}", use_container_width=True):
+                # Inactive: button with text only
+                if st.button(label, key=f"nav_{key}", use_container_width=True):
                     st.session_state.page = key
                     st.rerun()
 

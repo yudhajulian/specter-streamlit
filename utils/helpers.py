@@ -1,6 +1,10 @@
 import streamlit as st
 
 
+def bi_icon(name: str, color: str = "#040404", size: str = "1rem") -> str:
+    return f'<i class="bi bi-{name}" style="color:{color};font-size:{size};line-height:1;vertical-align:middle;"></i>'
+
+
 def metric_card(label, value, delta=None, delta_neg=False):
     delta_html = ""
     if delta:

@@ -52,6 +52,15 @@ footer                           { visibility: hidden; }
   border-right: 1px solid #E9E9E9 !important;
 }
 
+/* ─── Kurangi padding atas sidebar ─── */
+[data-testid="stSidebar"] > div:first-child {
+  padding-top: 0 !important;
+}
+
+[data-testid="stSidebarUserContent"] {
+  padding-top: 0 !important;
+}
+
 [data-testid="stSidebar"] > div:first-child {
   background: #FFFFFF !important;
 }

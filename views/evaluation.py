@@ -3,7 +3,7 @@ import plotly.graph_objects as go
 import plotly.figure_factory as ff
 import pandas as pd
 import numpy as np
-from utils.helpers import section_header, insight_box
+from utils.helpers import section_header, insight_box, bi_icon
 
 
 CLASSES = ["Mannequin", "Mask", "Papercut", "Printed", "Screen", "Real Person"]
@@ -71,7 +71,7 @@ def render():
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    tab1, tab2, tab3 = st.tabs(["🔢 Confusion Matrix", "📊 Classification Report", "🔍 Error Analysis"])
+    tab1, tab2, tab3 = st.tabs(["Confusion Matrix", "Classification Report", "Error Analysis"])
 
     # ── TAB 1: Confusion Matrix ────────────────────────────
     with tab1:
@@ -226,17 +226,17 @@ def render():
         )
         st.plotly_chart(fig_acc, use_container_width=True)
 
-        st.markdown("#### 🔑 Faktor Penyebab Error")
+        st.markdown(f'<h4 style="display:flex;align-items:center;gap:6px;">{bi_icon("key-fill", "#040404", "1rem")} Faktor Penyebab Error</h4>', unsafe_allow_html=True)
         causes = [
-            ("🖼️", "Visual Similarity", "Printed Photo dan Replay Video sama-sama menampilkan wajah di permukaan 2D, membuat model sulit membedakan keduanya."),
-            ("📊", "Class Imbalance", "Kelas 3D Mask memiliki data paling sedikit (~4K), sehingga model kurang terlatih untuk mengenalinya."),
-            ("🌐", "Domain Gap", "Perbedaan kualitas kamera, pencahayaan, dan sudut pengambilan gambar mempengaruhi performa model."),
-            ("🔍", "Fine-grained Features", "Perbedaan antara spoofing types kadang hanya terlihat dari texture dan refleksi cahaya yang sangat halus."),
+            ("images",          "#4F46E5", "Visual Similarity",     "Printed Photo dan Replay Video sama-sama menampilkan wajah di permukaan 2D, membuat model sulit membedakan keduanya."),
+            ("bar-chart-fill",  "#F59E0B", "Class Imbalance",       "Kelas 3D Mask memiliki data paling sedikit (~4K), sehingga model kurang terlatih untuk mengenalinya."),
+            ("globe2",          "#06b6d4", "Domain Gap",            "Perbedaan kualitas kamera, pencahayaan, dan sudut pengambilan gambar mempengaruhi performa model."),
+            ("zoom-in",         "#8b5cf6", "Fine-grained Features", "Perbedaan antara spoofing types kadang hanya terlihat dari texture dan refleksi cahaya yang sangat halus."),
         ]
-        for icon, title, desc in causes:
+        for icon, color, title, desc in causes:
             st.markdown(f"""
             <div style="display:flex;gap:12px;padding:0.85rem 0;border-bottom:1px solid #f3f4f6;">
-                <span style="font-size:1.3rem;">{icon}</span>
+                <div style="flex-shrink:0;margin-top:2px;">{bi_icon(icon, color, '1.3rem')}</div>
                 <div>
                     <div style="font-weight:700;font-size:0.85rem;color:#040404;">{title}</div>
                     <div style="font-size:0.78rem;color:#6b7280;line-height:1.5;margin-top:2px;">{desc}</div>

@@ -1,6 +1,6 @@
 import streamlit as st
 import plotly.graph_objects as go
-from utils.helpers import section_header, insight_box
+from utils.helpers import section_header, insight_box, bi_icon
 
 
 def render():
@@ -43,31 +43,31 @@ def render():
     st.markdown("<br>", unsafe_allow_html=True)
 
     # ── Project Pipeline ───────────────────────────────────
-    st.markdown("### 🗺️ Alur Project")
+    st.markdown('<h3 style="display:flex;align-items:center;gap:8px;">' + bi_icon("signpost-split-fill", "#040404", "1.2rem") + ' Alur Project</h3>', unsafe_allow_html=True)
 
     pipeline_steps = [
-        ("📦", "Data Collection", "Kaggle tf-fas dataset\nFace spoofing images"),
-        ("🔍", "EDA", "Distribusi kelas\nAnalisis ukuran gambar"),
-        ("⚙️", "Preprocessing", "Deduplication\nStratified split 70/15/15"),
-        ("🧠", "Modeling", "AntiSpoofNetV4 + ResNet50\nHingeACER Focal Loss"),
-        ("📈", "Evaluation", "Val Acc 93.59% · F1 91.11%\nClassification Report"),
-        ("🎯", "Deployment", "Streamlit Dashboard\nPrediction Demo"),
+        ("database-fill",  "Data Collection", "Kaggle tf-fas dataset\nFace spoofing images",        "#240CF6"),
+        ("search",         "EDA",             "Distribusi kelas\nAnalisis ukuran gambar",            "#06b6d4"),
+        ("gear-fill",      "Preprocessing",   "Deduplication\nStratified split 70/15/15",            "#F59E0B"),
+        ("cpu-fill",       "Modeling",        "AntiSpoofNetV4 + ResNet50\nHingeACER Focal Loss",     "#8b5cf6"),
+        ("graph-up-arrow", "Evaluation",      "Val Acc 93.59% · F1 91.11%\nClassification Report",  "#10b981"),
     ]
 
-    cols = st.columns(6)
-    for col, (icon, title, desc) in zip(cols, pipeline_steps):
+    cols = st.columns(5)
+    for col, (icon, title, desc, color) in zip(cols, pipeline_steps):
         with col:
             st.markdown(f"""
             <div style="
                 background:#FFFFFF;
                 border:1px solid #E9E9E9;
+                border-top:3px solid {color};
                 border-radius:12px;
                 padding:1rem 0.75rem;
                 text-align:center;
                 height:140px;
                 box-shadow:0 1px 3px rgba(0,0,0,0.04);
             ">
-                <div style="font-size:1.8rem;">{icon}</div>
+                <div style="margin-bottom:6px;">{bi_icon(icon, color, '1.8rem')}</div>
                 <div style="font-weight:700;font-size:0.8rem;color:#040404;margin:6px 0 4px;">{title}</div>
                 <div style="font-size:0.7rem;color:#52525B;line-height:1.4;">{desc}</div>
             </div>
@@ -79,7 +79,7 @@ def render():
     left, right = st.columns([1, 1], gap="large")
 
     with left:
-        st.markdown("### 🎯 Business Understanding")
+        st.markdown('<h3 style="display:flex;align-items:center;gap:8px;">' + bi_icon("bullseye", "#040404", "1.1rem") + ' Business Understanding</h3>', unsafe_allow_html=True)
         goals = [
             ("Face Liveness Detection API", "SPECTER menyediakan API untuk memverifikasi apakah wajah yang di-capture adalah orang nyata, bukan foto, video, atau topeng."),
             ("Multi-class Anti-Spoofing", "Sistem mampu mendeteksi 5 jenis serangan: mannequin, mask, papercut, printed photo, dan screen replay attack."),
@@ -88,7 +88,7 @@ def render():
         for title, desc in goals:
             st.markdown(f"""
             <div style="display:flex;gap:12px;margin-bottom:14px;align-items:flex-start;">
-                <div style="width:6px;height:6px;background:#240CF6;border-radius:50%;margin-top:7px;flex-shrink:0;"></div>
+                <div style="width:6px;height:6px;background:#040404;border-radius:50%;margin-top:7px;flex-shrink:0;"></div>
                 <div>
                     <div style="font-weight:600;font-size:0.85rem;color:#040404;">{title}</div>
                     <div style="font-size:0.78rem;color:#52525B;line-height:1.5;">{desc}</div>
@@ -97,7 +97,7 @@ def render():
             """, unsafe_allow_html=True)
 
     with right:
-        st.markdown("### 📂 Pembagian Dataset")
+        st.markdown('<h3 style="display:flex;align-items:center;gap:8px;">' + bi_icon("folder2-open", "#040404", "1.1rem") + ' Pembagian Dataset</h3>', unsafe_allow_html=True)
         fig = go.Figure(go.Pie(
             labels=["Train (70%)", "Validation (15%)", "Test (15%)"],
             values=[70, 15, 15],
@@ -141,7 +141,7 @@ def render():
             [col1, col2, col3],
             ["Train", "Validation", "Test"],
             ["8211", "1760", "1760"],
-            ["#240CF6", "#F59E0B", "#10b981"]
+            ["#040404", "#F59E0B", "#10b981"]
         ):
             with col:
                 st.markdown(f"""
@@ -159,55 +159,14 @@ def render():
     )
 
     # ── Spoof types ────────────────────────────────────────
-    st.markdown("### 🎭 Jenis Spoofing yang Dideteksi")
+    st.markdown('<h3 style="display:flex;align-items:center;gap:8px;">' + bi_icon("shield-fill-check", "#040404", "1.1rem") + ' Jenis Spoofing yang Dideteksi</h3>', unsafe_allow_html=True)
     spoof_types = [
-        (
-        "🧍",
-        "fake_mannequin",
-        "Spoof menggunakan mannequin atau boneka wajah.",
-        "#e0e7ff",
-        "#3730a3"
-    ),
-
-    (
-        "🎭",
-        "fake_mask",
-        "Serangan spoofing menggunakan masker wajah palsu.",
-        "#fef3c7",
-        "#92400e"
-    ),
-
-    (
-        "✂️",
-        "fake_papercut",
-        "Foto wajah dipotong dan dimanipulasi.",
-        "#fee2e2",
-        "#991b1b"
-    ),
-
-    (
-        "📸",
-        "fake_printed",
-        "Printed photo attack menggunakan foto cetak.",
-        "#d1fae5",
-        "#065f46"
-    ),
-
-    (
-        "📱",
-        "fake_screen",
-        "Replay attack menggunakan layar digital.",
-        "#f3e8ff",
-        "#6b21a8"
-    ),
-
-    (
-        "✅",
-        "realperson",
-        "Wajah asli pengguna.",
-        "#ecfdf5",
-        "#065f46"
-    ),
+        ("person-fill",         "fake_mannequin", "Spoof menggunakan mannequin atau boneka wajah.", "#e0e7ff", "#3730a3"),
+        ("eye-slash-fill",      "fake_mask",      "Serangan spoofing menggunakan masker wajah palsu.", "#fef3c7", "#92400e"),
+        ("scissors",            "fake_papercut",  "Foto wajah dipotong dan dimanipulasi.", "#fee2e2", "#991b1b"),
+        ("image-fill",          "fake_printed",   "Printed photo attack menggunakan foto cetak.", "#d1fae5", "#065f46"),
+        ("display-fill",        "fake_screen",    "Replay attack menggunakan layar digital.", "#f3e8ff", "#6b21a8"),
+        ("person-check-fill",   "realperson",     "Wajah asli pengguna.", "#ecfdf5", "#065f46"),
     ]
     cols = st.columns(3)
     for i, (icon, name, desc, bg, text) in enumerate(spoof_types):
@@ -222,7 +181,7 @@ def render():
                 gap:10px;
                 align-items:center;
             ">
-                <span style="font-size:1.4rem;">{icon}</span>
+                <div style="font-size:1.4rem;flex-shrink:0;">{bi_icon(icon, text, '1.4rem')}</div>
                 <div>
                     <div style="font-weight:700;font-size:0.82rem;color:{text};">{name}</div>
                     <div style="font-size:0.72rem;color:#4b5563;line-height:1.4;">{desc}</div>

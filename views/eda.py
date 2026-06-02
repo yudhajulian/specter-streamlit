@@ -3,7 +3,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
 import numpy as np
-from utils.helpers import section_header, insight_box
+from utils.helpers import section_header, insight_box, bi_icon
 
 
 # ── Simulated data from DAC Find-IT 2026 dataset ──────────────────────────────
@@ -43,10 +43,10 @@ def render():
     )
 
     tab1, tab2, tab3, tab4 = st.tabs([
-        "📊 Distribusi Kelas",
-        "🖼️ Ukuran Gambar",
-        "📁 Format File",
-        "🔎 Insight",
+        "Distribusi Kelas",
+        "Ukuran Gambar",
+        "Format File",
+        "Insight",
     ])
 
     # ── TAB 1: Class Distribution ──────────────────────────
@@ -108,7 +108,7 @@ def render():
             st.plotly_chart(fig_pie, use_container_width=True)
 
         # Tabel distribusi
-        st.markdown("#### 📋 Tabel Distribusi")
+        st.markdown(f'<h4 style="display:flex;align-items:center;gap:6px;">{bi_icon("table", "#040404", "1rem")} Tabel Distribusi</h4>', unsafe_allow_html=True)
         st.markdown("""
         <table class="styled-table" style="width:100%;">
         <thead><tr>
@@ -305,53 +305,29 @@ def render():
 
     # ── TAB 4: Summary Insights ────────────────────────────
     with tab4:
-        st.markdown("#### 📌 Kesimpulan EDA")
+        st.markdown(f'<h4 style="display:flex;align-items:center;gap:6px;">{bi_icon("pin-angle-fill", "#040404", "1rem")} Kesimpulan EDA</h4>', unsafe_allow_html=True)
 
         conclusions = [
-            (
-                "📊",
-                "Distribusi Dataset Tidak Seimbang",
-                "Kelas realperson memiliki jumlah data paling banyak, sedangkan fake_mannequin memiliki jumlah paling sedikit.",
-                "amber",
-            ),
-            (
-                "📐",
-                "Ukuran Gambar Bervariasi",
-                "Ukuran gambar pada dataset berbeda-beda sehingga preprocessing resize diperlukan sebelum training model.",
-                "indigo",
-            ),
-            (
-                "📁",
-                "Dataset Berhasil Dibersihkan",
-                "Proses deduplication dan cleaning berhasil menghapus data duplikat dan menjaga kualitas dataset.",
-                "green",
-            ),
-            (
-                "🎭",
-                "Terdapat 6 Kelas",
-                "Dataset terdiri dari berbagai jenis spoofing seperti fake_mask, fake_screen, fake_printed, dan realperson.",
-                "indigo",
-            ),
-            (
-                "🔢",
-                "Total 11,731 Data Valid",
-                "Dataset akhir setelah cleaning terdiri dari 11,731 gambar yang siap digunakan untuk preprocessing dan training model.",
-                "green",
-            ),
+            ("bar-chart-fill",   "Distribusi Dataset Tidak Seimbang", "Kelas realperson memiliki jumlah data paling banyak, sedangkan fake_mannequin memiliki jumlah paling sedikit.", "amber"),
+            ("rulers",           "Ukuran Gambar Bervariasi",          "Ukuran gambar pada dataset berbeda-beda sehingga preprocessing resize diperlukan sebelum training model.",        "indigo"),
+            ("folder-check",     "Dataset Berhasil Dibersihkan",      "Proses deduplication dan cleaning berhasil menghapus data duplikat dan menjaga kualitas dataset.",               "green"),
+            ("layers-fill",      "Terdapat 6 Kelas",                  "Dataset terdiri dari berbagai jenis spoofing seperti fake_mask, fake_screen, fake_printed, dan realperson.",       "indigo"),
+            ("card-list",        "Total 11,731 Data Valid",           "Dataset akhir setelah cleaning terdiri dari 11,731 gambar yang siap digunakan untuk preprocessing dan training.",  "green"),
         ]
 
         for icon, title, body, color in conclusions:
+            accent = '#4F46E5' if color == 'indigo' else '#F59E0B' if color == 'amber' else '#10b981'
             st.markdown(f"""
             <div style="
                 background:#fafafa;
                 border:1px solid #e5e7eb;
-                border-left:4px solid {'#4F46E5' if color=='indigo' else '#F59E0B' if color=='amber' else '#10b981'};
+                border-left:4px solid {accent};
                 border-radius:0 10px 10px 0;
                 padding:1rem 1.25rem;
                 margin-bottom:10px;
                 display:flex;gap:14px;align-items:flex-start;
             ">
-                <span style="font-size:1.4rem;flex-shrink:0;">{icon}</span>
+                <div style="font-size:1.3rem;flex-shrink:0;margin-top:2px;">{bi_icon(icon, accent, '1.3rem')}</div>
                 <div>
                     <div style="font-weight:700;font-size:0.9rem;color:#1e1b4b;margin-bottom:4px;">{title}</div>
                     <div style="font-size:0.82rem;color:#4b5563;line-height:1.6;">{body}</div>

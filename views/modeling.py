@@ -1,7 +1,7 @@
 import streamlit as st
 import plotly.graph_objects as go
 import pandas as pd
-from utils.helpers import section_header, insight_box
+from utils.helpers import section_header, insight_box, bi_icon
 
 
 def render():
@@ -10,7 +10,7 @@ def render():
         "Arsitektur model, strategi training, dan eksperimen yang dilakukan"
     )
 
-    tab1, tab2, tab3 = st.tabs(["🏗️ Arsitektur", "⚙️ Training Strategy", "🧪 Eksperimen"])
+    tab1, tab2, tab3 = st.tabs(["Arsitektur", "Training Strategy", "Eksperimen"])
 
     # ── TAB 1: Architecture ────────────────────────────────
     with tab1:
@@ -19,18 +19,18 @@ def render():
         models = [
             {
                 "name": "AntiSpoofNetV4",
-                "icon": "🧠",
+                "icon": "cpu-fill",
                 "params": "~28M",
                 "input": "256×256",
                 "accuracy": "—",
                 "role": "Model Utama",
                 "desc": "Multi-branch architecture: ConvNeXtSmall backbone + AttentionPooling (768-dim), FFT frequency branch (256-dim), dan Contextual Difference Convolution (CDC) texture branch (256-dim). Fusion 1280-dim → FSFM embedder 512-dim.",
-                "color": "#240CF6",
+                "color": "#040404",
                 "badge": "indigo",
             },
             {
                 "name": "IlhamCaesar ResNet50",
-                "icon": "🔬",
+                "icon": "diagram-3-fill",
                 "params": "~25M",
                 "input": "224×224",
                 "accuracy": "93.59%",
@@ -52,7 +52,7 @@ def render():
                 ">
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;">
                         <div style="display:flex;gap:10px;align-items:center;">
-                            <span style="font-size:1.5rem;">{m['icon']}</span>
+                            <div style="font-size:1.5rem;">{bi_icon(m['icon'], m['color'], '1.5rem')}</div>
                             <div>
                                 <div style="font-weight:800;font-size:0.95rem;color:#040404;">{m['name']}</div>
                                 <span class="badge badge-{m['badge']}">{m['role']}</span>
@@ -72,7 +72,7 @@ def render():
                 """, unsafe_allow_html=True)
 
         st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("#### 🏗️ AntiSpoofNetV4 — Detail Arsitektur")
+        st.markdown(f'<h4 style="display:flex;align-items:center;gap:6px;">{bi_icon("boxes", "#040404", "1rem")} AntiSpoofNetV4 — Detail Arsitektur</h4>', unsafe_allow_html=True)
         st.markdown("""
         <div style="background:#FAFAFA;border:1px solid #E9E9E9;border-radius:12px;padding:1.5rem;">
             <div style="font-size:0.82rem;color:#52525B;line-height:1.8;">
@@ -103,7 +103,7 @@ def render():
         """, unsafe_allow_html=True)
 
         st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("#### 🔍 Face Identity — InsightFace ArcFace")
+        st.markdown(f'<h4 style="display:flex;align-items:center;gap:6px;">{bi_icon("person-bounding-box", "#040404", "1rem")} Face Identity — InsightFace ArcFace</h4>', unsafe_allow_html=True)
         st.markdown("""
         <div style="background:#FAFAFA;border:1px solid #E9E9E9;border-radius:12px;padding:1rem 1.5rem;">
             <div style="font-size:0.82rem;color:#52525B;line-height:1.7;">
@@ -171,19 +171,19 @@ def render():
         with col2:
             st.markdown("**Augmentasi Data**")
             augs = [
-                ("🔀", "MixUp (α=0.4)",             "Interpolasi antar gambar & label"),
-                ("✂️", "CutMix (α=1.0)",            "Patch swap antar gambar"),
-                ("🔄", "Flip & Rotation (±18°)",    "Geometric augmentation dasar"),
-                ("🎨", "Brightness/Contrast/Color", "Photometric jitter"),
-                ("📸", "JPEG Simulation",            "Mensimulasikan kompresi print"),
-                ("🌊", "Moiré Overlay",              "Artefak replay/screen attack"),
-                ("🔇", "Gaussian Noise",             "Robustness terhadap sensor noise"),
-                ("🔍", "Elastic Distortion",         "Deformasi spasial realistis"),
+                ("shuffle",          "MixUp (α=0.4)",             "Interpolasi antar gambar & label"),
+                ("scissors",         "CutMix (α=1.0)",            "Patch swap antar gambar"),
+                ("arrow-repeat",     "Flip & Rotation (±18°)",    "Geometric augmentation dasar"),
+                ("sliders",          "Brightness/Contrast/Color", "Photometric jitter"),
+                ("camera-fill",      "JPEG Simulation",           "Mensimulasikan kompresi print"),
+                ("water",            "Moiré Overlay",             "Artefak replay/screen attack"),
+                ("soundwave",        "Gaussian Noise",            "Robustness terhadap sensor noise"),
+                ("zoom-in",          "Elastic Distortion",        "Deformasi spasial realistis"),
             ]
             for icon, name, desc in augs:
                 st.markdown(f"""
                 <div style="display:flex;gap:8px;padding:0.5rem 0;border-bottom:1px solid #f9fafb;align-items:center;">
-                    <span style="font-size:1rem;">{icon}</span>
+                    <div style="flex-shrink:0;">{bi_icon(icon, '#240CF6', '1rem')}</div>
                     <div>
                         <span style="font-size:0.8rem;font-weight:600;color:#040404;">{name}</span>
                         <span style="font-size:0.7rem;color:#52525B;"> — {desc}</span>
@@ -212,7 +212,7 @@ def render():
         df_exp = pd.DataFrame(experiments)
         df_plot = df_exp[df_exp["Val Acc"].notna()].copy()
 
-        colors = ["#240CF6" if v == max(df_plot["Val Acc"]) else "#c7d2fe" for v in df_plot["Val Acc"]]
+        colors = ["#040404" if v == max(df_plot["Val Acc"]) else "#c7d2fe" for v in df_plot["Val Acc"]]
         fig = go.Figure(go.Bar(
             x=df_plot["Iterasi"],
             y=(df_plot["Val Acc"] * 100).round(2),

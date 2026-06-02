@@ -1,7 +1,7 @@
 import streamlit as st
 import plotly.graph_objects as go
 import pandas as pd
-from utils.helpers import section_header, insight_box
+from utils.helpers import section_header, insight_box, bi_icon
 
 
 def render():
@@ -11,10 +11,10 @@ def render():
     )
 
     tab1, tab2, tab3, tab4 = st.tabs([
-        "🔄 Pipeline Overview",
-        "♻️ Deduplication",
-        "✅ Data Cleaning",
-        "📂 Dataset Split",
+        "Pipeline Overview",
+        "Deduplication",
+        "Data Cleaning",
+        "Dataset Split",
     ])
 
     # ── TAB 1: Pipeline ────────────────────────────────────
@@ -26,7 +26,7 @@ def render():
         "1",
         "Load Dataset",
         "Membaca seluruh dataset face anti-spoofing dari 6 kategori dengan total 11,819 gambar.",
-        "#240CF6"
+        "#040404"
     ),
 
     (
@@ -84,7 +84,7 @@ def render():
             """, unsafe_allow_html=True)
 
         st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("#### 💻 Kode: Membuat Dataframe & Hash")
+        st.markdown(f'<h4 style="display:flex;align-items:center;gap:6px;">{bi_icon("code-slash", "#040404", "1rem")} Kode: Membuat Dataframe & Hash</h4>', unsafe_allow_html=True)
         st.code("""
 import hashlib
 import pandas as pd
@@ -198,7 +198,7 @@ print("Sesudah Deduplikasi:", len(df_unique))
             st.markdown("""
             <div class="metric-card">
                 <div class="label">Data Valid</div>
-                <div class="value" style="color:#10b981;">11,731</div>
+                <div class="value" style="color:#10b981;">11,720</div>
                 <div class="delta">132 file corrupt dihapus</div>
             </div>""", unsafe_allow_html=True)
 
@@ -206,16 +206,16 @@ print("Sesudah Deduplikasi:", len(df_unique))
         st.markdown("#### Checklist Kualitas Data")
 
         checks = [
-            ("✅", "Tidak ada file corrupt",         "PIL verify() berhasil pada semua gambar yang tersisa"),
-            ("✅", "Tidak ada gambar kosong",          "Semua file memiliki ukuran > 0 bytes"),
-            ("✅", "Format valid (JPEG/PNG/WEBP)",     "Semua format yang didukung oleh model"),
-            ("✅", "Label konsisten",                  "Setiap gambar memiliki label kelas yang valid"),
-            ("✅", "No NaN/null values",               "DataFrame bebas dari nilai kosong"),
+            ("Tidak ada file corrupt",         "PIL verify() berhasil pada semua gambar yang tersisa"),
+            ("Tidak ada gambar kosong",         "Semua file memiliki ukuran > 0 bytes"),
+            ("Format valid (JPEG/PNG/WEBP)",    "Semua format yang didukung oleh model"),
+            ("Label konsisten",                 "Setiap gambar memiliki label kelas yang valid"),
+            ("No NaN/null values",              "DataFrame bebas dari nilai kosong"),
         ]
-        for icon, title, desc in checks:
+        for title, desc in checks:
             st.markdown(f"""
             <div style="display:flex;gap:10px;padding:0.6rem 0;border-bottom:1px solid #f3f4f6;align-items:center;">
-                <span style="font-size:1.1rem;">{icon}</span>
+                <div style="flex-shrink:0;">{bi_icon("check-circle-fill", "#10b981", "1.1rem")}</div>
                 <div>
                     <span style="font-weight:600;font-size:0.85rem;color:#040404;">{title}</span>
                     <span style="font-size:0.78rem;color:#52525B;"> — {desc}</span>
@@ -261,7 +261,7 @@ print("Data valid:", len(df_clean))
         for col, (label, count), color in zip(
             [col1, col2, col3],
             split_data.items(),
-            ["#240CF6", "#F59E0B", "#10b981"]
+            ["#040404", "#F59E0B", "#10b981"]
         ):
             with col:
                 st.markdown(f"""
@@ -322,19 +322,21 @@ print("Data valid:", len(df_clean))
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("#### Duplicate Check Antar Split")
         dup_checks = [
-            ("Train ↔ Validation", 0, "✅ Aman"),
-            ("Train ↔ Test",       0, "✅ Aman"),
-            ("Validation ↔ Test",  0, "✅ Aman"),
+            ("Train ↔ Validation", 0),
+            ("Train ↔ Test",       0),
+            ("Validation ↔ Test",  0),
         ]
-        for check, count, status in dup_checks:
+        for check, count in dup_checks:
             color = "#10b981" if count == 0 else "#ef4444"
+            status_icon = bi_icon("check-circle-fill", color, "0.95rem")
+            status_text = "Aman" if count == 0 else "Ada duplikat"
             st.markdown(f"""
             <div style="display:flex;justify-content:space-between;padding:0.6rem 1rem;
                         background:#FAFAFA;border-radius:8px;margin-bottom:6px;align-items:center;">
                 <span style="font-size:0.85rem;font-weight:500;">{check}</span>
                 <div style="display:flex;gap:12px;align-items:center;">
                     <span style="font-size:0.82rem;color:#52525B;">{count} duplikat</span>
-                    <span style="color:{color};font-weight:700;font-size:0.85rem;">{status}</span>
+                    <span style="display:flex;align-items:center;gap:4px;color:{color};font-weight:700;font-size:0.85rem;">{status_icon} {status_text}</span>
                 </div>
             </div>
             """, unsafe_allow_html=True)

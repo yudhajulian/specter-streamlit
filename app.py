@@ -1,6 +1,8 @@
 import streamlit as st
 
 st.set_page_config(
+    page_title="FaceGuard — Anti-Spoofing Analytics",
+    page_icon="🛡️",
     page_title="SPECTER — Anti-Spoofing Analytics",
     page_icon="",
     layout="wide",

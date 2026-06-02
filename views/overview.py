@@ -50,7 +50,7 @@ def render():
         ("search",         "EDA",             "Distribusi kelas\nAnalisis ukuran gambar",            "#06b6d4"),
         ("gear-fill",      "Preprocessing",   "Deduplication\nStratified split 70/15/15",            "#F59E0B"),
         ("cpu-fill",       "Modeling",        "AntiSpoofNetV4 + ResNet50\nHingeACER Focal Loss",     "#8b5cf6"),
-        ("graph-up-arrow", "Evaluation",      "Val Acc 93.59% · F1 91.11%\nClassification Report",  "#10b981"),
+        ("graph-up-arrow", "Evaluation",      "Val Acc ~94% · Macro F1 ~90%\nClassification Report",  "#10b981"),
     ]
 
     cols = st.columns(5)

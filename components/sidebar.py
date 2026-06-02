@@ -3,9 +3,22 @@ from pathlib import Path
 
 
 def load_css():
-    css_path = Path(__file__).parent.parent / "assets" / "style.css"
+    import base64
+    import streamlit.components.v1 as components
+
+    assets = Path(__file__).parent.parent / "assets"
+
+    def _b64(fname):
+        with open(assets / fname, "rb") as f:
+            return base64.b64encode(f.read()).decode()
+
+    fav_dark  = _b64("favicon_dark.png")   # logo putih  — untuk dark mode
+    fav_light = _b64("favicon_light.png")  # logo hitam  — untuk light mode
+
+    css_path = assets / "style.css"
     with open(css_path) as f:
         css = f.read()
+
     st.markdown(
         """
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,6 +29,35 @@ def load_css():
         unsafe_allow_html=True,
     )
     st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
+
+    # Inject favicon ke <head> via JS — satu-satunya cara override Streamlit's favicon
+    components.html(
+        f"""
+        <script>
+        (function() {{
+            var DARK  = 'data:image/png;base64,{fav_dark}';
+            var LIGHT = 'data:image/png;base64,{fav_light}';
+
+            function applyFavicon(isDark) {{
+                var doc = window.parent.document;
+                doc.querySelectorAll("link[rel~='icon']").forEach(function(el) {{
+                    el.remove();
+                }});
+                var link = doc.createElement('link');
+                link.rel  = 'icon';
+                link.type = 'image/png';
+                link.href = isDark ? DARK : LIGHT;
+                doc.head.appendChild(link);
+            }}
+
+            var mq = window.matchMedia('(prefers-color-scheme: dark)');
+            applyFavicon(mq.matches);
+            mq.addEventListener('change', function(e) {{ applyFavicon(e.matches); }});
+        }})();
+        </script>
+        """,
+        height=0,
+    )
 
 
 def render_sidebar():

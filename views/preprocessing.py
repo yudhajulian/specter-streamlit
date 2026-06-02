@@ -143,10 +143,14 @@ df = pd.DataFrame(data, columns=["image", "label", "hash"])
 
         st.markdown("<br>", unsafe_allow_html=True)
 
-        # Duplikat per kelas
+        # Duplikat dihapus per kelas (selisih distribusi awal − split totals, total = 88)
         dup_per_class = {
-            "Real Face": 210, "Printed Photo": 187, "Replay Video": 143,
-            "3D Mask": 95, "Cut Photo": 112, "Digital Spoof": 76,
+            "fake_mannequin": 33,
+            "fake_mask":       6,
+            "fake_papercut":   0,
+            "fake_printed":   17,
+            "fake_screen":     4,
+            "realperson":     28,
         }
         fig = go.Figure(go.Bar(
             x=list(dup_per_class.keys()),
@@ -156,7 +160,7 @@ df = pd.DataFrame(data, columns=["image", "label", "hash"])
             textposition="outside",
         ))
         fig.update_layout(
-            title="Jumlah Duplikat per Kelas",
+            title="Duplikat Dihapus per Kelas (total = 88)",
             height=320,
             plot_bgcolor="rgba(0,0,0,0)",
             paper_bgcolor="rgba(0,0,0,0)",
@@ -198,8 +202,8 @@ print("Sesudah Deduplikasi:", len(df_unique))
             st.markdown("""
             <div class="metric-card">
                 <div class="label">Data Valid</div>
-                <div class="value" style="color:#10b981;">11,720</div>
-                <div class="delta">132 file corrupt dihapus</div>
+                <div class="value" style="color:#10b981;">11,731</div>
+                <div class="delta">0 file corrupt ditemukan</div>
             </div>""", unsafe_allow_html=True)
 
         st.markdown("<br>", unsafe_allow_html=True)

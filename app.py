@@ -1,10 +1,13 @@
 import streamlit as st
+from PIL import Image as _PILImage
+from pathlib import Path as _Path
+
+_icon_path = _Path(__file__).parent / "assets" / "logo_icon_white.png"
+_page_icon = _PILImage.open(_icon_path) if _icon_path.exists() else "🛡️"
 
 st.set_page_config(
-    page_title="FaceGuard — Anti-Spoofing Analytics",
-    page_icon="🛡️",
-    page_title="SPECTER — Anti-Spoofing Analytics",
-    page_icon="",
+    page_title="Specter — Analytic",
+    page_icon=_page_icon,
     layout="wide",
     initial_sidebar_state="expanded",
 )

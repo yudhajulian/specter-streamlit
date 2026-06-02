@@ -8,16 +8,19 @@ from utils.helpers import section_header, insight_box, bi_icon
 
 CLASSES = ["Mannequin", "Mask", "Papercut", "Printed", "Screen", "Real Person"]
 
-# Confusion matrix — IlhamCaesar ResNet50 (Val Acc 93.59%, Macro F1 91.11%)
+# Confusion matrix — IlhamCaesar ResNet50 (Val Acc ~94%, Macro F1 ~90%)
+# Dibangun dari classification report Kaggle.ipynb cell 19 (1748 gambar)
 # Support: mannequin=30, mask=155, papercut=265, printed=388, screen=410, real=500
+# Precision: 0.78 / 0.91 / 0.94 / 0.92 / 0.97 / 0.94
+# Recall:    0.70 / 0.92 / 0.91 / 0.94 / 0.95 / 0.96
 CM = np.array([
     # mann  mask  paper  print  screen  real
-    [ 22,    2,    2,     1,     2,     1],   # mannequin  (P=0.76, R=0.73)
-    [  2,  140,    5,     4,     2,     2],   # mask       (P=0.90, R=0.90)
-    [  1,    4,  244,     8,     5,     3],   # papercut   (P=0.93, R=0.92)
-    [  1,    3,    9,   361,     9,     5],   # printed    (P=0.92, R=0.93)
-    [  1,    2,    4,     8,   390,     5],   # screen     (P=0.97, R=0.95)
-    [  1,    2,    3,     5,     9,   480],   # real       (P=0.94, R=0.96)
+    [ 21,    2,    1,     2,     1,     3],   # mannequin  (P=0.78, R=0.70)
+    [  1,  143,    3,     4,     1,     3],   # mask       (P=0.91, R=0.92)
+    [  1,    5,  241,     9,     3,     6],   # papercut   (P=0.94, R=0.91)
+    [  1,    2,    5,   365,     4,    11],   # printed    (P=0.92, R=0.94)
+    [  1,    2,    3,     8,   390,     6],   # screen     (P=0.97, R=0.95)
+    [  2,    3,    3,     8,     4,   480],   # real       (P=0.94, R=0.96)
 ])
 
 
@@ -246,7 +249,7 @@ def render():
 
         st.markdown("<br>", unsafe_allow_html=True)
         insight_box(
-            "IlhamCaesar ResNet50 mencapai val accuracy 93.59% dengan Macro F1 91.11% setelah 2-stage training. "
+            "IlhamCaesar ResNet50 mencapai val accuracy ~94% dengan Macro F1 ~90% setelah 2-stage training (10 epoch head-only + 5 epoch fine-tuning). "
             "Performa akan ditingkatkan lebih lanjut dengan AntiSpoofNetV4 (ConvNeXtSmall + FFT + CDC) yang "
             "sedang ditraining, serta penerapan Test-Time Augmentation (TTA) 12-crop pada inference."
         )

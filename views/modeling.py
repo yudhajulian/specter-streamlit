@@ -35,7 +35,7 @@ def render():
                 "input": "224×224",
                 "accuracy": "93.59%",
                 "role": "Model Alternatif",
-                "desc": "Transfer learning dari ResNet50 (ImageNet pretrained). Dua tahap: head-only training (10 epoch) dilanjutkan fine-tuning 30 layer backbone terakhir (5 epoch). Val Acc 93.59%, Macro F1 91.11%.",
+                "desc": "Transfer learning dari ResNet50 (ImageNet pretrained). Dua tahap: head-only training (10 epoch) dilanjutkan fine-tuning 30 layer backbone terakhir (5 epoch). Val Acc 93.59%, Macro F1 ~90%.",
                 "color": "#10b981",
                 "badge": "green",
             },
